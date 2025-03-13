@@ -3,12 +3,15 @@ from fastapi.middleware.wsgi import WSGIMiddleware
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from starlette.middleware.wsgi import WSGIMiddleware
+
 
 # Crear instancia de FastAPI
 app = FastAPI()
 
 # Crear la app Dash
-dash_app = dash.Dash(__name__, server=False)
+dash_app = dash.Dash(__name__, server=app, routes_pathname_prefix="/dash/")
+
 
 dash_app.layout = html.Div(children=[
     html.H1("Dashboard en Azure"),
@@ -27,7 +30,8 @@ dash_app.layout = html.Div(children=[
 ])
 
 # Integrar Dash en FastAPI
-app.mount("/", WSGIMiddleware(dash_app.server))
+app.mount("/dash", WSGIMiddleware(dash_app.server))
+
 
 if __name__ == "__main__":
     import uvicorn

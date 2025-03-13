@@ -1,6 +1,6 @@
 fastapi
-uvicorn
 dash
 dash-core-components
 dash-html-components
 gunicorn
+uvicorn
